@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import * as EventEmitter from "events"
 import { NgxSpinnerService } from 'ngx-spinner';
 import { bindCallback } from 'rxjs';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
@@ -21,6 +22,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
   
   ngOnInit(): void {
   }
+  @Output() createdProduct: EventEmitter<Create_Product>=new EventEmitter();
   //ErrorMessage checks the errors from backend
   create(name:HTMLInputElement,stock:HTMLInputElement,price:HTMLInputElement){
     this.showSpinner(SpinnerType.BallAtom);
@@ -29,39 +31,15 @@ export class CreateComponent extends BaseComponent implements OnInit {
     create_product.stock=parseInt(stock.value);
     create_product.price=parseFloat(price.value);
 
-
-    if(!name.value){
-      this.alertify.message("Please write the name of product",{
-        dismissOthers:true,
-        messageType:MessageType.Error,
-        position:Position.TopRight
-      })
-      return
-    }
-    if(parseInt(stock.value)<0){
-      this.alertify.message("The stocks value must be greater than 0",{
-        dismissOthers:true,
-        messageType:MessageType.Error,
-        position:Position.TopRight
-      })
-      return
-    }
-    if(!name.value){
-      this.alertify.message("The price value must be greater than 0",{
-        dismissOthers:true,
-        messageType:MessageType.Error,
-        position:Position.TopRight
-      })
-      return
-    }
-
     this.productService.createProduct(create_product,()=>
     {this.hideSpinner(SpinnerType.BallAtom),
     this.alertify.message("Your product successfully added",{
       dismissOthers:true,
       messageType:MessageType.Success,
       position:Position.TopLeft
-    })},
+    });
+    this.createdProduct.enit(create_product)
+  },
     errorMessage=>{
       this.alertify.message(errorMessage,{
         dismissOthers:true,

@@ -1,7 +1,9 @@
 import { _VIEW_REPEATER_STRATEGY } from '@angular/cdk/collections';
+import { Breakpoints } from '@angular/cdk/layout';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ContentChild, Injectable } from '@angular/core';
 import { Create_Product } from 'src/app/contracts/create_product';
+import { List_Product } from 'src/app/contracts/list_product';
 import { HttpClientService } from '../http-client.service';
 
 @Injectable({
@@ -13,13 +15,12 @@ export class ProductService {
 
 
   createProduct(product:Create_Product
-    ,successCallBack?:any
-    ,errorCallBack?:any)
+    ,successCallBack?:()=>void
+    ,errorCallBack?:(errorMessage:string)=>void)
     {
     this.httpclientservice.post({controller:"products"},
     product).subscribe(result=>{
       successCallBack();
-      alert("Working")
     },(errorResponse:HttpErrorResponse)=>{
       const _error:Array<{key:string,value:Array<string>}>= errorResponse.error;
       
@@ -34,5 +35,19 @@ export class ProductService {
 
       errorCallBack(message);
     });
+  }
+
+  async read(page: number = 0, size: number = 5, successCallBack?: () => void, errorCallBack?: 
+  (errorMessage: string) => void): Promise<{ totalProductCount: number; products: List_Product[] }> {
+    const promiseData: Promise<{ totalProductCount: number; products: List_Product[] }> = 
+    this.httpclientservice.get<{ totalProductCount: number; products: List_Product[] }>({
+      controller: "products",
+      queryString: `page=${page}&size=${size}`
+    }).toPromise();
+
+    promiseData.then(d => successCallBack())
+      .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message))
+
+    return await promiseData;
   }
 }

@@ -1,6 +1,7 @@
 import { Inject, inject, Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http"
 import { Observable } from 'rxjs';
+import { Breakpoints } from '@angular/cdk/layout';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class HttpClientService {
     if(requestParameters.fullEndPoint)
       url=requestParameters.fullEndPoint;
     else
-      url=`${this.url(requestParameters)}${id?`/${id}`:""}`;
+      url=`${this.url(requestParameters)}${id ? `/${id}` : ""}${requestParameters.queryString ? `?${requestParameters.queryString}` : ""}`;
+      Breakpoints;
     return this.httpClient.get<T>(url,{headers:requestParameters.headers});
   }
   
@@ -27,34 +29,32 @@ export class HttpClientService {
     if(requestParameters.fullEndPoint)
       url=requestParameters.fullEndPoint;
     else
-      url=`${this.url(requestParameters)}`;
-    
+      url = `${this.url(requestParameters)}${requestParameters.queryString ? `?${requestParameters.queryString}` : ""}`
     return this.httpClient.post<T>(url, body, { headers: requestParameters.headers }); 
   }
 
-  put<T>(requestParameter:Partial<RequestParameters>,body:Partial<T>):Observable<T>{
+  put<T>(requestParameters:Partial<RequestParameters>,body:Partial<T>):Observable<T>{
     let url:string="";
-    if(requestParameter.fullEndPoint)
-      url=requestParameter.fullEndPoint;
+    if(requestParameters.fullEndPoint)
+      url=requestParameters.fullEndPoint;
     else
-      url=`${this.url(requestParameter)}`;
-    return this.httpClient.put<T>(url,body,{headers:requestParameter.headers});
+      url=`${this.url(requestParameters)}${requestParameters.queryString ? `?${requestParameters.queryString}` : ""}`;
+    return this.httpClient.put<T>(url,body,{headers:requestParameters.headers});
     }
-  delete<T>(requestParameter:Partial<RequestParameters>,id:string):Observable<T>{
+  delete<T>(requestParameters:Partial<RequestParameters>,id:string):Observable<T>{
       let url:string="";
-      if(requestParameter.fullEndPoint)
-        url=requestParameter.fullEndPoint;
+      if(requestParameters.fullEndPoint)
+        url=requestParameters.fullEndPoint;
       else
-        url=`${this.url(requestParameter)}/${id}`;
-      return this.httpClient.delete<T>(url,{headers:requestParameter.headers});
+        url=`${this.url(requestParameters)}${requestParameters.queryString ? `?${requestParameters.queryString}` : ""}`;
+      return this.httpClient.delete<T>(url,{headers:requestParameters.headers});
   }
-
 }
-
 export class RequestParameters{
   headers?:HttpHeaders;
   fullEndPoint?:string;
   controller?:string;
   baseUrl?:string;
   action?:string;
+  queryString?:string;
 }
