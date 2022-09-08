@@ -1,10 +1,10 @@
 import { _VIEW_REPEATER_STRATEGY } from '@angular/cdk/collections';
-import { Breakpoints } from '@angular/cdk/layout';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ContentChild, Injectable } from '@angular/core';
 import { Create_Product } from 'src/app/contracts/create_product';
 import { List_Product } from 'src/app/contracts/list_product';
 import { HttpClientService } from '../http-client.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ContentChild, Injectable } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +49,16 @@ export class ProductService {
       .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message))
 
     return await promiseData;
+  }
+ 
+  async delete(id: string) {
+    //Id is coming from directive!
+
+    const deleteObservable: Observable<any> = this.httpclientservice.delete<any>({
+      controller: "products"
+    }, id);
+
+    var a = await firstValueFrom(deleteObservable);
+    
   }
 }

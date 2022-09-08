@@ -1,11 +1,10 @@
-import { Component, OnInit, Output } from '@angular/core';
-import * as EventEmitter from "events"
-import { NgxSpinnerService } from 'ngx-spinner';
-import { bindCallback } from 'rxjs';
-import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
-import { Create_Product } from 'src/app/contracts/create_product';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { ProductService } from 'src/app/services/common/model/product.service';
+import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
+import { Create_Product } from 'src/app/contracts/create_product';
+import { Component, OnInit, Output } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-create',
@@ -38,7 +37,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
       messageType:MessageType.Success,
       position:Position.TopLeft
     });
-    this.createdProduct.enit(create_product)
+    this.createdProduct.emit(create_product);
   },
     errorMessage=>{
       this.alertify.message(errorMessage,{

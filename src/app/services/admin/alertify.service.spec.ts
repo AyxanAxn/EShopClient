@@ -1,6 +1,6 @@
+import { AlertifyService } from './alertify.service';
 import { TestBed } from '@angular/core/testing';
 
-import { AlertifyService } from './alertify.service';
 
 describe('AlertifyService', () => {
   let service: AlertifyService;

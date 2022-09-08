@@ -1,11 +1,14 @@
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { MatTableDataSource, _MatTableDataSource } from '@angular/material/table';
 import { ProductService } from 'src/app/services/common/model/product.service';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { List_Product } from 'src/app/contracts/list_product';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { MatPaginator } from '@angular/material/paginator';
+
+declare var $:any;
+
 
 @Component({
   selector: 'app-list',
@@ -18,24 +21,36 @@ export class ListComponent extends BaseComponent implements OnInit {
     super(spinner);
   }
 
-  displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate','updatedDate'];
+  displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate','updatedDate','edit','delete'];
   dataSource :MatTableDataSource<List_Product>= null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  //This function is for refreshing the table
   async getProducts() {
     this.showSpinner(SpinnerType.BallAtom);
-    const allProducts: { totalProductCount: number; products: List_Product[] } = await 
-    this.productService.read(this.paginator ? this.paginator.pageIndex : 0, this.paginator 
-      ? this.paginator.pageSize : 5, () => this.hideSpinner(SpinnerType.BallAtom),
-       errorMessage => this.alertifyService.message(errorMessage, {
+    const allProducts: { totalProductCount: number; 
+    products: List_Product[] } = await 
+    this.productService.read(this.paginator 
+      ? this.paginator.pageIndex : 0, this.paginator 
+      ? this.paginator.pageSize : 5,
+       () => this.hideSpinner(SpinnerType.BallAtom),
+       errorMessage => this.alertifyService.message(errorMessage, 
+        {
       dismissOthers: true,
       messageType: MessageType.Error,
       position: Position.TopRight
     }))
-    this.dataSource = new MatTableDataSource<List_Product>(allProducts.products);
+    this.dataSource = new MatTableDataSource<List_Product>
+    (allProducts.products);
     this.paginator.length = allProducts.totalProductCount;
   }
   
+  
+
+  // delete(id,event){
+  //   const image : HTMLImageElement=event.srcElement;
+  //   $(image.parentElement.parentElement).fadeOut(2000);
+  // }
+
    async pageChanged(){
      await this.getProducts();
    }

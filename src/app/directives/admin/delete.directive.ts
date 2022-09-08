@@ -1,10 +1,12 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2 } from '@angular/core';
 import { DeleteDialogComponent, DeleteState } from 'src/app/dialog/delete-dialog/delete-dialog.component';
-import { ProductService } from 'src/app/services/common/model/product.service';
-import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
+import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
+import { HttpClientService } from 'src/app/services/common/http-client.service';
+import { SpinnerType } from '../../base/base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { __exportStar } from 'tslib';
+import { HttpErrorResponse } from '@angular/common/http';
 
 declare var $ : any;
 //Directive is using for our clear code and 
@@ -16,9 +18,10 @@ export class DeleteDirective  {
 
   constructor(private element:ElementRef,
     private _renderer:Renderer2,
-    private productService:ProductService,
+    private httpClientService:HttpClientService,
     private spinner:NgxSpinnerService,
-    public dialog: MatDialog) { 
+    public dialog: MatDialog,
+    private alertify:AlertifyService) { 
       const img = _renderer.createElement("img");
       img.setAttribute("src", "../../../../../assets/delete.png");
       img.setAttribute("style", "cursor: pointer;");
@@ -28,31 +31,48 @@ export class DeleteDirective  {
     }
     
     @Output() callback : EventEmitter<any>=new EventEmitter();
-
-    @Input() id: string;
+    
     //@Input is using for to take the data from 
     //html input.
-    @HostListener("click")
+    @Input() id: string;
+    @Input() controller:string;
     //This is used for to listen an event from html.
+    @HostListener("click")
     async onclick(){
       this.openDialog(async ()=>{
         this.spinner.show(SpinnerType.ballSpinClockwiseFadeRotating);
         const td : HTMLTableCellElement= this.element.nativeElement;
-        await this.productService.delete(this.id);
-        $(td.parentElement).animate({  
-          opacity:0,
-          left:"+50",
-          height:"toogle"
-        },700,()=>{
-          this.callback.emit();
-        })
-        this.spinner.hide(SpinnerType.ballSpinClockwiseFadeRotating);
-      });
+        //await this.httpClientService.delete(this.id);
+        this.httpClientService.delete({
+          controller : this.controller
+        }, this.id).subscribe(data=>{
+            $(td.parentElement).animate({
+              opacity: 0,
+              left: "+=50",
+              height: "toogle"
+            }, 700, () => {
+              this.callback.emit();
+              this.spinner.hide(SpinnerType.ballSpinClockwiseFadeRotating);
+              this.alertify.message("Product was deleted succesfully",{
+                dismissOthers:true,
+                position:Position.TopRight,
+                messageType:MessageType.Success
+              });
+            })
+          },
+          (errorResponse:HttpErrorResponse)=>{
+            this.spinner.hide(SpinnerType.ballSpinClockwiseFadeRotating);
+            this.alertify.message("Something get wrong",{
+              dismissOthers:true,
+              position:Position.TopRight,
+              messageType:MessageType.Error
+            });
+          });
+        });
     }
 
 
     openDialog(afterClosed:any): void {
-
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '250px',
         data: DeleteState.Yes,
@@ -62,9 +82,6 @@ export class DeleteDirective  {
         if(result==DeleteState.Yes){
          afterClosed();
         }
-
     });
-
-
   }
 }

@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LayoutComponent } from './layout.component';
-import { ComponentsModule } from './components/components.module';
-import { RouterModule } from '@angular/router';
 import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
+import { ComponentsModule } from './components/components.module';
+import { LayoutComponent } from './layout.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
