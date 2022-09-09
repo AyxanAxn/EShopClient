@@ -1,5 +1,4 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2 } from '@angular/core';
-import { DeleteDialogComponent, DeleteState } from 'src/app/dialog/delete-dialog/delete-dialog.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { SpinnerType } from '../../base/base.component';
@@ -7,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { __exportStar } from 'tslib';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DeleteDialogComponent,
+   DeleteState } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 
 declare var $ : any;
 //Directive is using for our clear code and 
@@ -29,9 +30,7 @@ export class DeleteDirective  {
       img.height = 25;
       _renderer.appendChild(element.nativeElement, img);    
     }
-    
-    @Output() callback : EventEmitter<any>=new EventEmitter();
-    
+    @Output() callback : EventEmitter<any>=new EventEmitter()
     //@Input is using for to take the data from 
     //html input.
     @Input() id: string;
@@ -70,8 +69,6 @@ export class DeleteDirective  {
           });
         });
     }
-
-
     openDialog(afterClosed:any): void {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '250px',
