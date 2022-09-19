@@ -87,7 +87,6 @@ export class FileUploadComponent {
                 position:ToastrPosition.TopRight
               })
             }
-            this.spinner.show(SpinnerType.BallScaleMultiple);
           }); 
         }}
     //);
