@@ -7,9 +7,8 @@ import { AdminModule } from './admin/admin.module';
 import { AppComponent } from './app.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UiModule } from './ui/ui.module';
-import { ToastrModule } from "ngx-toastr";
 import { NgModule } from '@angular/core';
-
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,

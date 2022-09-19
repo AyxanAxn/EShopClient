@@ -1,8 +1,9 @@
+import { FileUploadOptions } from 'src/app/services/common/file-upload/file-upload.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { ProductService } from 'src/app/services/common/model/product.service';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { Create_Product } from 'src/app/contracts/create_product';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component,  Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EventEmitter } from '@angular/core';
 
@@ -11,16 +12,18 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent extends BaseComponent implements OnInit {
+export class CreateComponent extends BaseComponent {
   
-  constructor(spinner:NgxSpinnerService,
+  constructor(
+    spinner:NgxSpinnerService,
      private productService:ProductService,
      private alertify:AlertifyService) {
     super(spinner)
    }
   
-  ngOnInit(): void {
-  }
+
+
+  
   @Output() createdProduct: EventEmitter<Create_Product>=new EventEmitter();
   //ErrorMessage checks the errors from backend
   create(name:HTMLInputElement,stock:HTMLInputElement,price:HTMLInputElement){

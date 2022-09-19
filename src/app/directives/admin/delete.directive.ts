@@ -8,6 +8,7 @@ import { __exportStar } from 'tslib';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeleteDialogComponent,
    DeleteState } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
+import { DialogService } from 'src/app/services/common/dialog.service';
 
 declare var $ : any;
 //Directive is using for our clear code and 
@@ -17,12 +18,14 @@ declare var $ : any;
 })
 export class DeleteDirective  {
 
-  constructor(private element:ElementRef,
+  constructor(
+    private element:ElementRef,
     private _renderer:Renderer2,
     private httpClientService:HttpClientService,
     private spinner:NgxSpinnerService,
     public dialog: MatDialog,
-    private alertify:AlertifyService) { 
+    private alertify:AlertifyService,
+    private dialogService:DialogService) { 
       const img = _renderer.createElement("img");
       img.setAttribute("src", "../../../../../assets/delete.png");
       img.setAttribute("style", "cursor: pointer;");

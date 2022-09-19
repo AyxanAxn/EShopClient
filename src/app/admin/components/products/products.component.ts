@@ -2,9 +2,7 @@ import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { Component, createComponent, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { Create_Product } from 'src/app/contracts/create_product';
-import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
-import { ViewEncapsulation } from '@angular/compiler';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
