@@ -55,6 +55,7 @@ export class FileUploadComponent {
             headers: new HttpHeaders({ "responseType": "blob" })
         },fileData).subscribe(data=>
         {
+          //Body
           const Message="Files added successfully";
           if(this.options.isAdminPage){
             this.alertifyService.message(Message,{
