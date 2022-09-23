@@ -37,7 +37,10 @@ export class RegisterComponent implements OnInit {
     get component(){
       return this.frm.controls;
     }
+    submitted:boolean=false;
   onSubmit(data: any){
+    this.submitted = true;
     debugger;
+    if(this.frm.invalid) return
   }
 }

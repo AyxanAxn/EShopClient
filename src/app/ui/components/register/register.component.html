@@ -1,25 +1,35 @@
-
-        <form>
-            <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" placeholder="Email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
+    <!-- [] is for dynamic parametr  -->
+    <form [formGroup]="frm" (ngSubmit)="onSubmit(frm.value)">
+        <div class="form-group" >
+            <label for="nameSurname">Name and surname</label>
+            <input formControlName="nameSurname" 
+            [ngClass]="{'is-invalid': component.nameSurname.errors}" type="email" class="form-control" id="nameSurname" aria-describedby="emailHelp" placeholder="Name surname">
+                    <small class="form-text text-muted" *ngIf="submitted && component.nameSurname.errors?.required">We'll never share your name and surname with anyone else.</small>
+        </div>
 
             <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="username">Username</label>
+                <input formControlName="username" type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="User name">
+                <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.username?.errors.required">We'll never share your user name with anyone else.</small>
             </div>
-            <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
 
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input formControlName="email" type="email" class="form-control" id="email" placeholder="Email">
+                <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.email.errors?.required">We'll never share your email with anyone else.</small>
+            </div>
+
+           
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
+                <p>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmThePassword">Confirm the password</label>
+                <input formControlName="confirmEmail" type="password" class="form-control" id="confirmThePassword" placeholder="Confirm the password">
+            </div>
+            <p></p>
+            <button type="submit" class="btn btn-primary">Register</button>
+    </form>
