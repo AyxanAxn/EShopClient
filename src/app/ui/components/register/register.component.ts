@@ -1,6 +1,7 @@
 import { group, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { User } from 'src/app/entities/user';
 
 @Component({
   selector: 'app-register',
@@ -50,7 +51,7 @@ export class RegisterComponent implements OnInit {
       return this.frm.controls;
     }
     submitted:boolean=false;
-  onSubmit(data: any){
+  onSubmit(data: User){
     this.submitted = true;
     
     
