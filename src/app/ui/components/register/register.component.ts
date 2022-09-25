@@ -16,20 +16,26 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.frm=this.formBuilder.group({
       nameSurname:["",
-      [Validators.required,
+      [
+        Validators.required,
         Validators.maxLength(50),
         Validators.minLength(3)]],
       username:["",
-      [Validators.required,
+      [
+        Validators.required,
         Validators.maxLength(50),
         Validators.minLength(3)]
     ],
       email:["",
-      [Validators.required,
+      [
+        Validators.required,
         Validators.maxLength(50),
         Validators.email]],
-      password:[""],
-      confirmEmail:[""]
+      password:["",
+        Validators.required],
+      confirmPassword:["",
+        Validators.required
+    ]
     });
   }
 
@@ -40,7 +46,8 @@ export class RegisterComponent implements OnInit {
     submitted:boolean=false;
   onSubmit(data: any){
     this.submitted = true;
-    debugger;
+    
+    
     if(this.frm.invalid) return
   }
 }

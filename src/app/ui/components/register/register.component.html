@@ -9,26 +9,33 @@
 
             <div class="form-group">
                 <label for="username">Username</label>
-                <input formControlName="username" type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="User name">
-                <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.username?.errors.required">We'll never share your user name with anyone else.</small>
+                <input   [ngClass]="{'is-invalid': component.username.errors}" formControlName="username" type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="User name">
+                <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.username.errors?.required">We'll never share your user name with anyone else.</small>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input formControlName="email" type="email" class="form-control" id="email" placeholder="Email">
+                <input [ngClass]="{'is-invalid': component.email.errors}" formControlName="email" type="email" class="form-control" id="email" placeholder="Email">
                 <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.email.errors?.required">We'll never share your email with anyone else.</small>
+                <small id="emailHelp" class="form-text text-muted" *ngIf="submitted && component.email.errors?.required">Please enter the email address</small>
             </div>
 
            
             <div class="form-group">
                 <label for="password">Password</label>
-                <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
+                <input formControlName="password" type="password" 
+                [ngClass]="{'is-invalid': component.password.errors}"
+                class="form-control" id="password"
+                 placeholder="Password">
                 <p>
             </div>
 
             <div class="form-group">
                 <label for="confirmThePassword">Confirm the password</label>
-                <input formControlName="confirmEmail" type="password" class="form-control" id="confirmThePassword" placeholder="Confirm the password">
+                <input formControlName="confirmPassword" type="password"
+                 class="form-control" id="confirmThePassword"
+                 [ngClass]="{'is-invalid': component.confirmPassword.errors}"
+                 placeholder="Confirm the password">
             </div>
             <p></p>
             <button type="submit" class="btn btn-primary">Register</button>
