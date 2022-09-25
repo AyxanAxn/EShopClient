@@ -1,6 +1,6 @@
-import { trigger } from '@angular/animations';
+import { group, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder:FormBuilder) { }
-
 
   frm : FormGroup;
   ngOnInit(): void {
@@ -36,6 +35,13 @@ export class RegisterComponent implements OnInit {
       confirmPassword:["",
         Validators.required
     ]
+    },
+    {
+      validators : (group : AbstractControl) : ValidationErrors | null=> {
+      let password = group.get("password").value;
+      let confirmPassword=group.get("confirmPassword").value;
+      return password=== confirmPassword ? null : {notSame: true};
+    }
     });
   }
 
