@@ -65,7 +65,8 @@ export class RegisterComponent implements OnInit {
     if(result.succeeded){
       this.toastrService.Message(result.message,"User added successfully!",{
         messageType:ToastrMessageType.Success,
-        position:ToastrPosition.TopRight
+        position:ToastrPosition.TopRight,
+        
       });
     }
     else{
@@ -73,10 +74,6 @@ export class RegisterComponent implements OnInit {
         messageType:ToastrMessageType.Error,
         position:ToastrPosition.TopRight
       });
-
     }
-    
-
-
   }
 }

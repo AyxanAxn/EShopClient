@@ -25,7 +25,6 @@ export class ProductService {
     },(errorResponse:HttpErrorResponse)=>{
       const _error:Array<{key:string,value:Array<string>}>= errorResponse.error;
       
-      
       let message:string="";
 
       _error.forEach((v,index)=>{
@@ -33,7 +32,6 @@ export class ProductService {
           message+=`${_v}<br/>`
         })
       });
-
       errorCallBack(message);
     });
   }
@@ -74,7 +72,6 @@ export class ProductService {
     successCallBack();
     return images;
   }
-
 
   async deleteImage(id:string,imageId:string, successCallBack?: () => void){
     const deleteObservable=  this.httpclientservice.delete({
