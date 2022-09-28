@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { Token } from 'src/app/contracts/token/token';
+import { TokenResponse } from 'src/app/contracts/token/tokenResponse';
 import { Create_User } from 'src/app/contracts/users/createUser';
 import { User } from 'src/app/entities/user';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui/custom-toastr.service';
 import { HttpClientService } from '../http-client.service';
 
 @Injectable({
@@ -9,7 +12,7 @@ import { HttpClientService } from '../http-client.service';
 })
 export class UserService {
 
-  constructor(private httpclientservice:HttpClientService) { }
+  constructor(private httpclientservice:HttpClientService,private toastrService:CustomToastrService) { }
 
 
 
@@ -21,13 +24,23 @@ export class UserService {
   }
 
 
-async login(usernameOrEmail,password,callBackFunction?:()=>void) :Promise<void> {
-  const observable:Observable<any> = this.httpclientservice.post({
+async login(usernameOrEmail,password,callBackFunction?:()=>void) :Promise<any> {
+  const observable : Observable<any | TokenResponse> = this.httpclientservice.post<any | TokenResponse  >({
     controller:"users",
     action:"login"
   }, { usernameOrEmail,password })
-  await firstValueFrom(observable);
+  const tokenResponse : TokenResponse = await firstValueFrom(observable) as TokenResponse;
+  console.log(tokenResponse);
+  if(tokenResponse){
+    localStorage.setItem("accessToken", tokenResponse.token.accessToken);
+    console.log(localStorage);
+
+    this.toastrService.Message("Success","You entered successfully",{
+      messageType:ToastrMessageType.Success,
+      position: ToastrPosition.TopRight
+    });
+    
+  }
   callBackFunction();
 }
-
 }
