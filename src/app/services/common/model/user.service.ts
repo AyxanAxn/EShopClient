@@ -33,8 +33,11 @@ export class UserService {
 
     if(tokenResponse){
       const data=tokenResponse.token;
+      console.log(data);
+      console.log(data.accessToken);
+      
       //Writing the data to localStorage of browser :       
-      localStorage.setItem('accessToken', JSON.stringify(data.acccessToken));
+      localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
       this.toastrService.Message("Success","You entered successfully",{
         messageType:ToastrMessageType.Success,
         position: ToastrPosition.TopRight

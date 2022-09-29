@@ -28,15 +28,19 @@
   
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" 
-              routerLink="register">Register</a>
+              routerLink="register" *ngIf="!authSerice.isAuthentucated">Register</a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" 
-              routerLink="login">Sign in</a>
+              routerLink="login" *ngIf="!authSerice.isAuthentucated">Sign in</a>
             </li>
 
-            <li class="nav-item dropdown">
+            <li>
+              <a routerLink="admin" class="btn btn-outline-success"  aria-current="page" style="background-color:red; cursor: pointer;" (click)="signOut()" *ngIf="authSerice.isAuthentucated">Sign out</a>
+            </li>
+
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
               </a>
@@ -51,18 +55,21 @@
             
             <li class="nav-item">
               <a class="nav-link disabled">Disabled</a>
-            </li>
+            </li> -->
   
             <li class="nav-item">
-                <a routerLink="admin" class="btn btn-outline-success"  aria-current="page" routerLink="admin">Admin</a>
+                <a routerLink="admin" class="btn btn-outline-success"  aria-current="page" routerLink="admin" *ngIf="authSerice.isAuthentucated">Admin</a>
               </li>
-  
+
+           
+
+
           </ul>
   
-          <form class="d-flex" role="search">
+          <!-- <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          </form> -->
         </div>
       </div>
     </nav>
