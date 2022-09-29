@@ -23,24 +23,23 @@ export class UserService {
     return await firstValueFrom(observable) as Create_User;
   }
 
+  async login(usernameOrEmail,password,callBackFunction?:()=>void) {
+    const observable : Observable<any | TokenResponse> =
+    this.httpclientservice.post<any | TokenResponse>({
+        controller:"users",
+        action:"login"
+    }, { usernameOrEmail,password })
+    const tokenResponse : TokenResponse = await firstValueFrom(observable) as TokenResponse;
 
-async login(usernameOrEmail,password,callBackFunction?:()=>void) :Promise<any> {
-  const observable : Observable<any | TokenResponse> = this.httpclientservice.post<any | TokenResponse  >({
-    controller:"users",
-    action:"login"
-  }, { usernameOrEmail,password })
-  const tokenResponse : TokenResponse = await firstValueFrom(observable) as TokenResponse;
-  console.log(tokenResponse);
-  if(tokenResponse){
-    localStorage.setItem("accessToken", tokenResponse.token.accessToken);
-    console.log(localStorage);
-
-    this.toastrService.Message("Success","You entered successfully",{
-      messageType:ToastrMessageType.Success,
-      position: ToastrPosition.TopRight
-    });
-    
+    if(tokenResponse){
+      const data=tokenResponse.token;
+      //Writing the data to localStorage of browser :       
+      localStorage.setItem('accessToken', JSON.stringify(data.acccessToken));
+      this.toastrService.Message("Success","You entered successfully",{
+        messageType:ToastrMessageType.Success,
+        position: ToastrPosition.TopRight
+      });
+    }
+    callBackFunction();
   }
-  callBackFunction();
-}
 }

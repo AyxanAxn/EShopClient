@@ -1,4 +1,4 @@
 export class Token{
-    accessToken: string;
-    expiration: Date;
+    public acccessToken: string;
+    public expiration: Date;
 }
