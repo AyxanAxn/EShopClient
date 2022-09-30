@@ -8,7 +8,6 @@ import { RegisterComponent } from '../register/register.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
   ],
   imports: [
     CommonModule,
