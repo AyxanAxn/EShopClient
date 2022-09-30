@@ -11,7 +11,7 @@ export class AuthService {
 
     const token : string =localStorage.getItem("accessToken");
     const expirationDate=this.jwtHelper.getTokenExpirationDate(token)
-    let expired:boolean;
+    let expired : boolean;
 
     try{
       expired=this.jwtHelper.isTokenExpired(token); 
@@ -20,7 +20,7 @@ export class AuthService {
       expired=true;
     }
 
-    _isAuthentucated =token!=null && !expired;
+    _isAuthentucated = token!=null && !expired;
     
   }
   get isAuthentucated():boolean{
